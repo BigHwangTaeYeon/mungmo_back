@@ -1,0 +1,36 @@
+#spring.application.name=boardService
+
+server:
+  port: 0
+  servlet:
+    context-path: /board-service
+
+spring:
+  application:
+    name: board-application
+  config:
+    import:
+      - classpath:/yml/file.yml
+  datasource:
+    url: jdbc:mysql://localhost:3306/mungmoboard?useUnicode=true&characterEncoding=utf8
+    username: mungmo
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+eureka:
+  instance:
+  instance-id: ${spring.cloud.client.hostname}:${spring.application.instance-id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka

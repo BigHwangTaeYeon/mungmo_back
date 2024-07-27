@@ -1,0 +1,98 @@
+server:
+  port: 8000
+
+redis:
+  host: localhost
+  port: 6379
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: apigateway-service
+  config:
+    import:
+      - classpath:/yml/jwt.yml
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
+        - name: LoggingFilter
+          args:
+            baseMessage: Logging, filter.
+            preLogger: true
+            postLogger: true
+
+      routes:
+        - id: kakao-signup
+          uri: lb://user-application
+          predicates:
+            - Path=/member-service/*/kakao
+            - Method=GET
+          filters:
+            - name: CustomFilter
+              args:
+                baseMessage: CustomFilter
+
+        - id: naver-signup
+          uri: lb://user-application
+          predicates:
+            - Path=/member-service/*/naver
+            - Method=GET
+          filters:
+            - name: CustomFilter
+              args:
+                baseMessage: CustomFilter
+
+        - id: findId
+          uri: lb://user-application
+          predicates:
+            - Path=/member-service/*/feignClient/memberInfo/**
+            - Method=GET
+          filters:
+            - name: CustomFilter
+              args:
+                baseMessage: CustomFilter
+
+        - id: member
+          uri: lb://user-application
+          predicates:
+            - Path=/member-service/**
+          filters:
+            - name: AuthorizationHeaderFilter # jwt token 검증 및 Long id 로 변환
+
+        - id: board-login
+          uri: lb://board-application
+          predicates:
+            - Path=/board-service/*/auth/**
+          filters:
+            - name: AuthorizationHeaderFilter
+
+        - id: board
+          uri: lb://board-application
+          predicates:
+            - Path=/board-service/**
+
+        - id: chat
+          uri: lb://chat-application
+          predicates:
+            - Path=/chat-service/**
+          filters:
+            - name: AuthorizationHeaderFilter
+
+        - id: admin
+          uri: lb://admin-application
+          predicates:
+            - Path=/admin-service/**
+          filters:
+            - name: AuthorizationHeaderFilter
+            # 인가는 adminService 에서 Filter 를 통해 진행

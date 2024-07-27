@@ -1,0 +1,12 @@
+
+kafka:
+  server: localhost:9092,localhost:9093,localhost:9094
+  consumer:
+    id: chat_consumer_id
+  topic:
+    message:
+      meetup: chat_meetup_message
+      subgroup: chat_subgroup_message
+    notification:
+      meetup: chat_meetup_notification
+      subgroup: chat_subgroup_notification

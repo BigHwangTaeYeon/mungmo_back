@@ -1,0 +1,45 @@
+#spring.application.name=memberService
+
+server:
+  port: 0
+  servlet:
+    context-path: /member-service
+
+redis:
+  host: localhost
+  port: 6379
+
+spring:
+  config:
+#      activate:
+#        on-profile: dev
+    import:
+      - classpath:/yml/file.yml
+      - classpath:/yml/kafka.yml
+      - classpath:/yml/logging.yml
+      - classpath:/yml/oauth_secret.yml
+  application:
+    name: user-application
+  datasource:
+    url: jdbc:mysql://localhost:3306/mungmomember?useUnicode=true&characterEncoding=utf8
+    username: mungmo
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+eureka:
+  instance:
+  instance-id: ${spring.cloud.client.hostname}:${spring.application.instance-id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka

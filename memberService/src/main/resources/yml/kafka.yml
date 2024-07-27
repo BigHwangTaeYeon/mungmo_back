@@ -1,0 +1,12 @@
+
+kafka:
+  server: localhost:9092,localhost:9093,localhost:9094
+  town:
+    consumer:
+      id: town_consumer_id
+    topic: test123.mungmomember.town
+#    topic: cdc.mungmomember.town
+    filter:
+      topic: filter.mungmomember.town
+      standardCertification: certification
+      standardDate: certification_date

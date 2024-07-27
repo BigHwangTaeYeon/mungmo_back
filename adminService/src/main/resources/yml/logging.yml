@@ -1,0 +1,28 @@
+
+logging:
+  #  config:
+  #    import:
+  #      - classpath:/yml/log4j2.yml
+  level:  # log4jdbc, Mybatis Console Log
+    com:
+      zaxxer:
+        hikari: INFO
+    javax:
+      sql:
+        DataSource: OFF
+    jdbc:
+      audit: OFF
+      resultset: OFF
+      resultsettable: INFO
+      sqlonly: OFF
+      sqltiming: INFO
+      connection : OFF
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql: TRACE
+        orm:
+          jdbc:
+            bind: trace

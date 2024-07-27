@@ -1,0 +1,6 @@
+
+api:
+  upload:
+    dir:
+      dog: /Users/bighwang/Documents/workspace/MungMo/file/dog/
+      report: /Users/bighwang/Documents/workspace/MungMo/file/report/

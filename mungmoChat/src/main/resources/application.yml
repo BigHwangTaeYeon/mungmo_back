@@ -1,0 +1,45 @@
+#spring.application.name=mungmoChat
+
+server:
+  port: 0
+  servlet:
+    context-path: /chat-service
+
+mongodb:
+  client: mongodb://localhost:27017
+  database: mungmoChat
+
+spring:
+  application:
+    name: chat-application
+  config:
+    import:
+      - classpath:/yml/kafka.yml
+      - classpath:/yml/logging.yml
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/mungmochat?useUnicode=true&characterEncoding=utf8
+    username: mungmo
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/testdb
+
+eureka:
+  instance:
+  instance-id: ${spring.cloud.client.hostname}:${spring.application.instance-id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
